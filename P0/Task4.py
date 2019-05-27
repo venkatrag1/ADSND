@@ -29,14 +29,18 @@ telephone_numbers = set()
 possible_telemarketers = set()
 
 for text in texts:
+    # Add numbers that receive or send texts to set
     incoming_number, answering_number, time = text
     telephone_numbers.update([str(incoming_number), str(answering_number)])
 
 for call in calls:
+    # Add only numbers that received calls to set
     incoming_number, answering_number, time, during = call
     telephone_numbers.add(str(answering_number))
 
 for call in calls:
+    # Second pass through calls - iterate through incoming numbers and mark
+    # as telemarketer if not in our set
     incoming_number, answering_number, time, during = call
     if incoming_number not in telephone_numbers:
         possible_telemarketers.add(incoming_number)

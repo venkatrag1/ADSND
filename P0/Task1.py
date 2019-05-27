@@ -19,6 +19,17 @@ Print a message:
 "There are <count> different telephone numbers in the records."
 """
 def get_unique_counts():
+    """
+    Description: This function returns number of unique telephone numbers
+    in both text and call csv files together
+
+    Arguments:
+        None
+
+    Returns:
+        length of set of telephone numbers encountered in incoming and answering
+        fields of both csv.
+    """
     telephone_numbers = set()
     for text in texts:
         incoming_number, answering_number, time = text

@@ -46,12 +46,12 @@ The percentage should have 2 decimal digits
 
 import re
 
-incoming_parser = re.compile(r'\((?P<blr_code>080)\)')
+incoming_parser = re.compile(r'\((?P<blr_code>080)\)') #Bangalore area code 080
 
 answering_parsers = [
-    re.compile(r'\((?P<code>0\d+)\)'),
-    re.compile(r'(?P<code>[789]\d{3})\d*\s\d+'),
-    re.compile(r'(?P<code>140)\d+')
+    re.compile(r'\((?P<code>0\d+)\)'), #Fixed lines start with an area code enclosed in brackets beginning with 0
+    re.compile(r'(?P<code>[789]\d{3})\d*\s\d+'), #First four digits of mobile numbers that start with 7,8,9 and have a space in the middle
+    re.compile(r'(?P<code>140)\d+') #Telemarketer area codes starting with 140
 ]
 
 from_blr = 0
@@ -63,8 +63,10 @@ for call in calls:
     incoming_number, answering_number, time, during = call
     if not incoming_parser.match(incoming_number):
         continue
+    # Proceed here only if BLR incoming
     from_blr += 1
     for parser in answering_parsers:
+        # Iterate through possible parsers
         match = parser.match(answering_number)
         if match:
             code = match.group('code')

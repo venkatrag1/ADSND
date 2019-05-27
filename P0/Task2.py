@@ -22,11 +22,12 @@ September 2016.".
 
 telephone_numbers_time_map = dict()
 
+#Build map of numbers and call duration - add both incoming and outgoing minutes
 for call in calls:
     incoming_number, answering_number, time, during = call
     date = time.split(' ')[0]
     month, year = date.split('-')[1], date.split('-')[2]
-    if month != '09' and year != '2016':
+    if month != '09' and year != '2016': # Check to ensure Sept 2016
         continue
     telephone_numbers_time_map[incoming_number] = telephone_numbers_time_map.get(incoming_number, 0) + int(during)
     telephone_numbers_time_map[answering_number] = telephone_numbers_time_map.get(answering_number, 0) + int(during)
@@ -34,6 +35,7 @@ for call in calls:
 telephone_number = None
 total_time = -1
 for number, call_duration in telephone_numbers_time_map.items():
+    # Second pass through dictionary to check for max cumulative duration
     if call_duration > total_time:
         total_time = call_duration
         telephone_number = number

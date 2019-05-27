@@ -38,9 +38,9 @@ Task1
 ----
 
 ####Number of Unique Phone numbers  
-**Time Complexity**: O(m + n) 
+**Time Complexity**: O(m+n) 
 
-**Space Complexity**: O(m + n)
+**Space Complexity**: O(m+n)
 
 ####Explanation
 
@@ -88,19 +88,42 @@ Task3
 **Space Complexity**: O(1)
 
 ####Explanation
+The time complexity for both these tasks is O(n) as we need to iterate through
+every call in calls csv.
 
-Radix sort in O(n) time
+
+An additional O(nlogn) upto O(n^2) may be incurred for the first task, to print
+the results in lexical order, due to Quicksort, which would be the dominant factor over
+the linear time to get the prefixes themselves.  
+
+The space complexity for the first task is O(n) since we are storing the prefixes
+in a set, which could be as long as the number of call records
+
+The space complexity for the second task is a constant since we only need two
+counters to keep track of calls from bangalore and calls from bangalore to bangalore.
 
 Task4
 ----
 
-####First Record of Texts  
-**Time Complexity**: O(1) 
+####Identify potential telemarketers 
+**Time Complexity**: O(m+n) 
 
-**Space Complexity**: O(1)
+**Space Complexity**: O(m+n)
 
 ####Explanation
 
+The time complexity is proportional to total number of records in both text and 
+calls csv since we're iterating through all records to build our set 
+and then doing a second pass through calls.
+
+
+An additional O(nlogn) upto O(n^2) may be incurred for printing due to quicksort (
+since records in text csv cannot be telemarketers but all records in calls could 
+potentially be from telemarketers). So, if we consider the complexity of the prints
+as well ot would be O(m+n) + O(n^2) worst case.
+
+The space complexity is O(m+n) since we could potentially store all records in both
+files in our set, for lookup.
 
 
 
