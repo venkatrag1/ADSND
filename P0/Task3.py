@@ -43,3 +43,46 @@ Print the answer as a part of a message::
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
+
+import re
+
+incoming_parser = re.compile(r'\((?P<blr_code>080)\)')
+
+answering_parsers = [
+    re.compile(r'\((?P<code>0\d+)\)'),
+    re.compile(r'(?P<code>[789]\d{3})\d*\s\d+'),
+    re.compile(r'(?P<code>140)\d+')
+]
+
+from_blr = 0
+from_blr_to_blr = 0
+code_set = set()
+
+
+for call in calls:
+    incoming_number, answering_number, time, during = call
+    if not incoming_parser.match(incoming_number):
+        continue
+    from_blr += 1
+    for parser in answering_parsers:
+        match = parser.match(answering_number)
+        if match:
+            code = match.group('code')
+            code_set.add(code)
+            if code == '080':
+                from_blr_to_blr += 1
+            # print(match.group('code'), end=': ')
+            # print(answering_number)
+            break
+
+print("The numbers called by people in Bangalore have codes:")
+[print(code) for code in sorted(list(code_set))]
+
+try:
+    print("<{percentage:.2f}%> percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore.".format(
+    percentage=(100.0 * from_blr_to_blr/from_blr)))
+except ZeroDivisionError:
+    print("No calls from fixed lines in Bangalore.")
+
+
+

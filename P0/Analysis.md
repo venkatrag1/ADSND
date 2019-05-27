@@ -74,17 +74,24 @@ unique in the calls csv in which case, our dictionary size would be twice the
 number of records in calls csv file (since each record contains an incoming and
 answering number). 
 
-Task0
+Task3
 ----
 
-####First Record of Texts  
-**Time Complexity**: O(1) 
+####Area codes and mobile prefixes called by people in Bangalore
+**Time Complexity**: O(n)
+
+**Space Complexity**: O(n)
+
+####Percentage of calls from Fixed lines in Bangalore to Fixed lines in Bangalore 
+**Time Complexity**: O(n) 
 
 **Space Complexity**: O(1)
 
 ####Explanation
 
-Task0
+Radix sort in O(n) time
+
+Task4
 ----
 
 ####First Record of Texts  
