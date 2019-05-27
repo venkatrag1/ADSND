@@ -1,6 +1,6 @@
 Notation
 ----
-Let n be the number of records in texts.csv and m be the number of records in 
+Let m be the number of records in texts.csv and n be the number of records in 
 calls.csv
 
 
@@ -29,7 +29,7 @@ For the first record, the time complexity is O(1) since we can directly index in
 the first element in the list.  
 
 For the last record, in a C-style implementation of an array, the size would be
-stored ahead of time, so the time complexity would've been O(m).
+stored ahead of time, so the time complexity would've been O(n).
 However, in python, the size of the list is stored and can be retrieved in O(1)
 time, and therefore, O(-1) directly indexes into a known index leading the time
 complexity to be O(1) in this case as well.
@@ -53,15 +53,27 @@ Similarly time complexity is also equal to total number of records, because we
 have to go through each record exactly once to insert it into our set, before doing
 a O(1) length lookup of the set itself.
 
-Task0
+Task2
 ----
 
-####First Record of Texts  
-**Time Complexity**: O(1) 
+####Number spending longest time on phone in Sept 2016
+**Time Complexity**: O(n) 
 
-**Space Complexity**: O(1)
+**Space Complexity**: O(n)
 
 ####Explanation
+Since we're going through every record in the calls csv file exactly once, the 
+time complexity is O(n). We incur two O(1) lookups at every record, to see if the
+phone number has previously been added to the dictionary, and if so, we append 
+the duration to it, else we set it to 0. At the end, we do a second pass through
+the numbers, going through the dictionary, to find the max. So, 2n + n boils down
+to O(n).
+
+Space complexity is equal to O(n) since in the worst case, every number can be 
+unique in the calls csv in which case, our dictionary size would be twice the 
+number of records in calls csv file (since each record contains an incoming and
+answering number). 
+
 Task0
 ----
 
