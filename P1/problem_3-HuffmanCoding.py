@@ -90,7 +90,17 @@ def huffman_encoding(data):
     return ''.join(encoded_data), final_tree
 
 def huffman_decoding(data, tree):
-    pass
+    curr_node = tree.root
+    decoded_data = []
+    for digit in data:
+        if digit == '0':
+            curr_node = curr_node.left
+        if digit == '1':
+            curr_node = curr_node.right
+        if not curr_node.is_internal():
+            decoded_data.append(curr_node.data.c)
+            curr_node = tree.root
+    return ''.join(decoded_data)
 
 if __name__ == "__main__":
     codes = {}
@@ -104,8 +114,6 @@ if __name__ == "__main__":
 
     print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print ("The content of the encoded data is: {}\n".format(encoded_data))
-
-    exit(0)
 
     decoded_data = huffman_decoding(encoded_data, tree)
 
