@@ -62,8 +62,6 @@ class HuffmanTree(object):
         if node.right:
             HuffmanTree._get_code_dict(node.right, code_dict)
 
-
-
 def build_freq_dict(data):
     freq_dict = dict()
     for c in data:
@@ -74,7 +72,6 @@ def huffman_encoding(data):
     if len(data) == 0:
         return
     freq_dict = build_freq_dict(data)
-    print(freq_dict)
     h = []
     for c, freq in freq_dict.items():
         heapq.heappush(h, HuffmanTree(freq, HuffmanData(c)))
@@ -88,11 +85,9 @@ def huffman_encoding(data):
         heapq.heappush(h, new_tree)
     final_tree = heapq.heappop(h)
     final_tree.assign_codes()
-    print(final_tree.get_code_dict())
-
-
-
-
+    code_dict = final_tree.get_code_dict()
+    encoded_data = [code_dict[c] for c in data]
+    return ''.join(encoded_data), final_tree
 
 def huffman_decoding(data, tree):
     pass
@@ -101,8 +96,6 @@ if __name__ == "__main__":
     codes = {}
 
     a_great_sentence = "The bird is the word"
-    huffman_encoding(a_great_sentence)
-    exit(0)
 
     print ("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
     print ("The content of the data is: {}\n".format(a_great_sentence))
@@ -111,6 +104,8 @@ if __name__ == "__main__":
 
     print ("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print ("The content of the encoded data is: {}\n".format(encoded_data))
+
+    exit(0)
 
     decoded_data = huffman_decoding(encoded_data, tree)
 
