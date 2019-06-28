@@ -1,5 +1,5 @@
-Active Directory
-In Windows Active Directory, a group can consist of user(s) and group(s) themselves. We can construct this hierarchy as such. Where User is represented by str representing their ids.
+#Active Directory
+#In Windows Active Directory, a group can consist of user(s) and group(s) themselves. We can construct this hierarchy as such. Where User is represented by str representing their ids.
 
 class Group(object):
     def __init__(self, _name):
@@ -41,4 +41,11 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
-    return None
+    users = set(group.get_users())
+    if user in users:
+        return True
+    for sub_group in group.get_groups():
+        return is_user_in_group(user, sub_group)
+    return False
+
+print(is_user_in_group("sub_child_user", parent))

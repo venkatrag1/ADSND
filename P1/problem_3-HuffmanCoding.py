@@ -85,6 +85,7 @@ def huffman_encoding(data):
         heapq.heappush(h, new_tree)
     final_tree = heapq.heappop(h)
     final_tree.assign_codes()
+    # Build code dict in assign codes
     code_dict = final_tree.get_code_dict()
     encoded_data = [code_dict[c] for c in data]
     return ''.join(encoded_data), final_tree
