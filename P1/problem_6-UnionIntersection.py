@@ -25,6 +25,7 @@ class LinkedList:
     def from_head(cls, head):
         new_ll = cls()
         new_ll.head = head
+        new_ll._sorted = False
         return new_ll
 
     def __str__(self):
@@ -37,6 +38,7 @@ class LinkedList:
 
 
     def append(self, value):
+        self._sorted = False
 
         if self.head is None:
             self.head = Node(value)
