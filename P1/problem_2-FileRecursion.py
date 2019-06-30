@@ -16,7 +16,7 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
-    path_list = list()
+    path_list = list() # empty list to old results
     _find_files(suffix, path, path_list)
     return path_list
 
@@ -24,29 +24,14 @@ def find_files(suffix, path):
 def _find_files(suffix, path, path_list):
     candidates = os.listdir(path)
     for candidate in candidates:
+        # Form full-path by merging candidate name with base-path
         candidate = os.path.join(path, candidate)
         if os.path.isfile(candidate):
             if candidate.endswith(suffix):
                 path_list.append(candidate)
-            # Check suffix endswith
         elif os.path.isdir(candidate):
+            # recurse on sub-directories
             _find_files(suffix, candidate, path_list)
 
 
 print(find_files('.c', 'testdir'))
-"""
-## Locally save and call this file ex.py ##
-
-# Code to demonstrate the use of some of the OS modules in python
-
-import os
-
-# Let us print the files in the directory in which you are running this script
-print (os.listdir("."))
-
-# Let us check if this file is indeed a file!
-print (os.path.isfile("./ex.py"))
-
-# Does the file end with .py?
-print ("./ex.py".endswith(".py"))
-"""
