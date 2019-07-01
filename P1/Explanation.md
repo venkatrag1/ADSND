@@ -45,3 +45,26 @@ for queue will both be of size n, where n is the capacity of the cache.
 **Space Complexity**: O(n) where n is size of cache
 
 
+## Problem 2: File Recursion
+
+#### __Design__ 
+
+In the straighforward case, we handle files and directories encountered in 
+current directory differently - checking files for suffix match and adding to result if matched,
+and recursing on the directories to continue the same until no more sub-directories are 
+encountered.
+
+However, softlinks might cause us to have infinite loops, breaking away from a true
+tree structure if a sub-directory contains a softlink back to its parent.
+
+To handle this case, we convert all directories, including softlinks to their 
+realpath, and store them in a `visited` set recursing only if not already added into the set.
+
+Since we visit every node exactly once, the time complexity is linear to number of nodes (files, 
+directories, soft-links) under current directory.
+
+#### __find_files__  
+
+**Time Complexity**: O(n) where n is number of files and subdirectories under a given path
+
+**Space Complexity**: O(n) to maintain set of visited directories
