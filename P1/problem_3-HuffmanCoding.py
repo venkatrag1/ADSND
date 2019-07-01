@@ -3,11 +3,13 @@ import heapq
 
 class HuffmanData(object):
     def __init__(self, c):
+        # Store character and the Huffman code that will be associated with it
         self.c = c
         self.code = None
 
 class HuffmanNode(object):
     def __init__(self, freq, data=None):
+        # Add frequency context to huffman data and make it into a binary tree node
         self.freq = freq
         self.data = data
         self.left = None
@@ -17,11 +19,13 @@ class HuffmanNode(object):
         return self.freq < other.freq
 
     def is_internal(self):
-        return self.data == None
+        # Check if its an intermediate node of Huffman tree not associated with a single character (those nodes are at the leaf)
+        return self.data is None
 
     def set_code(self, code):
-        if self.data is None:
+        if self.is_internal():
             raise ValueError('Cannot set code for internal node')
+        # Store given list of chars as string code
         self.data.code = ''.join(code)
 
 class HuffmanTree(object):
@@ -32,6 +36,7 @@ class HuffmanTree(object):
         return self.root < other.root
 
     def assign_codes(self):
+        # Recurse on this Huffman tree starting from root
         self._assign_codes(self.root)
 
     @staticmethod
@@ -40,13 +45,15 @@ class HuffmanTree(object):
             node.set_code(code)
             return
         if node.left:
+            # If you are going left in the tree, append a 0
             code.append('0')
             HuffmanTree._assign_codes(node.left, code)
-            code.pop()
+            code.pop() # Backtrack
         if node.right:
+            # Append 1 if going right
             code.append('1')
             HuffmanTree._assign_codes(node.right, code)
-            code.pop()
+            code.pop() # Backtrack
 
     def get_code_dict(self):
         code_dict = dict()

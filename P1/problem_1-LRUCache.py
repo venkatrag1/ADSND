@@ -1,6 +1,9 @@
 import unittest
 
 class CacheData(object):
+    """
+    Description: Data Obj to store the key and value of Cached data
+    """
     def __init__(self, key, value):
         self.key = key
         self.value = value
@@ -10,12 +13,18 @@ class CacheData(object):
 
 
 class Node(object):
+    """
+    Description: Wrap CacheData as a Doubly Linked-List node
+    """
     def __init__(self, data):
         self.data = data
         self.prev = None
         self.next = None
 
 class DLLQueue(object):
+    """
+    Description: Queue for storing time order of modification, using a Doubly Linked List
+    """
     def __init__(self):
         self.num_elements = 0
         self.head = None
@@ -25,6 +34,14 @@ class DLLQueue(object):
         return self.num_elements == 0
 
     def enqueue(self, data):
+        """
+        Description: Add CacheData node to tail of the queue
+        Arguments:
+            CacheData object
+
+        Returns:
+            Reference to newly created Node
+        """
         node = Node(data)
         if self.is_empty():
             self.head = node
@@ -38,6 +55,14 @@ class DLLQueue(object):
         return node
 
     def dequeue(self):
+        """
+        Description: Remove data at head of queue
+        Arguments:
+            None
+
+        Returns:
+            CacheData obj that was previously at the head of the queue
+        """
         if self.is_empty():
             return None
         # Dequeue node at head and update head to next element
@@ -47,6 +72,14 @@ class DLLQueue(object):
         return data
 
     def re_enqueue(self, node):
+        """
+        Description: Pluck an existing CacheData node in the queue and re-enqueue it at the tail
+        Arguments:
+            Reference to CacheData node to be re-enqueued
+
+        Returns:
+            None
+        """
         if not node.next:
             # already at tail/most-recent; nothing needs to be done
             return
@@ -65,7 +98,14 @@ class DLLQueue(object):
         self.tail = node
 
     def update_head(self, new_data):
-        # Throw away head by updating its data with the new data
+        """
+        Description: Throw away value at head by updating its data with the new data
+        Arguments:
+            New Data (key, value) to be put at head
+
+        Returns:
+            None
+        """
         if self.is_empty():
             self.enqueue(new_data)
         else:
@@ -80,7 +120,9 @@ class DLLQueue(object):
         return out_string
 
 class LRU_Cache(object):
-
+    """
+    Description: LRU Cache object comprised of a key lookup and a queue containing data in time order of modification
+    """
     def __init__(self, capacity):
         # Initialize class variables
         self.num_elements = 0
@@ -95,6 +137,14 @@ class LRU_Cache(object):
         return self.num_elements == self.capacity
 
     def _get_node_for_key(self, key):
+        """
+        Description: Return queue node reference given a key, from key_map after verifying
+        Arguments:
+            Key against which data was stored
+
+        Returns:
+            Reference to Doubly Linked List node in queue
+        """
         node = self.key_map[key]
         if key != node.data.key: # Confirm that reverse lookup from node matches key_map lookup
             raise ValueError("key_map key {} and usage_queue key {} are out of sync".format(
@@ -102,11 +152,26 @@ class LRU_Cache(object):
         return node
 
     def _make_most_recent(self, node):
-        # Move node to tail
+        """
+        Description: Move node to tail of queue
+        Arguments:
+            Reference to modified node
+
+        Returns:
+            None
+        """
         self.usage_queue.re_enqueue(node)
 
     def get(self, key):
-        # Retrieve item from provided key. Return -1 if nonexistent.
+        """
+        Description: Retrieve item from provided key. Return -1 if nonexistent.
+        Arguments:
+            Key
+
+        Returns:
+            Value
+        """
+        #
         if key not in self.key_map:
             return -1
         node = self._get_node_for_key(key)
@@ -115,6 +180,14 @@ class LRU_Cache(object):
         return node.data.value
 
     def _update_node(self, node, value):
+        """
+        Description: Update value for an already present key, given reference to that node
+        Arguments:
+            Node reference, new value
+
+        Returns:
+            None
+        """
         node.data.value = value
         # Updating also makes the node, the most recent
         self._make_most_recent(node)

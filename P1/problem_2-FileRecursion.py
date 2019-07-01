@@ -25,6 +25,18 @@ def find_files(suffix, path):
 
 
 def _find_files(suffix, path, path_list, visited):
+    """
+    Recursive helper for find files
+
+    Args:
+      suffix(str): suffix if the file name to be found
+      path(str): path of the file system
+      path_list(list): list to hold result
+      visited(set): set of visited sub-directories
+
+    Returns:
+       None
+    """
     candidates = os.listdir(path)
     for candidate in candidates:
         # Form full-path by merging candidate name with base-path, converting any softlinks and relpath to absolute path

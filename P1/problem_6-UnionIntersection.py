@@ -23,6 +23,7 @@ class LinkedList:
 
     @classmethod
     def from_head(cls, head):
+        # Alternative constructor to wrap an already build list into Linked List class using the head
         new_ll = cls()
         new_ll.head = head
         new_ll._sorted = False
@@ -38,17 +39,17 @@ class LinkedList:
 
 
     def append(self, value):
-        self._sorted = False
+        self._sorted = False  # If adding new node, reset the sorted flag
 
         if self.head is None:
             self.head = Node(value)
             return
 
         node = self.head
-        while node.next:
+        while node.next: # Traverse to end of llist
             node = node.next
 
-        node.next = Node(value)
+        node.next = Node(value) # Add at end
 
     def size(self):
         size = 0
@@ -63,11 +64,13 @@ class LinkedList:
     def _front_back_split(head):
         slow = head
         fast = head
+        # Get slow node to one node before the mid-point, so move fast pointer first
         while fast:
             fast = fast.next
             if fast and fast.next:
                 fast = fast.next
                 slow = slow.next
+        # Split into two llists using slow.next as the second llist head and disconnect the first llist after slow
         front = head
         back = slow.next
         slow.next = None
@@ -76,6 +79,9 @@ class LinkedList:
 
     @staticmethod
     def get_nodes_ascending(left_head, right_head):
+        # Generator to yield the lower of the values and none for the other value, when
+        # traverse the two llist side by side. If both values are same, yield both
+        # left and right nodes.
         left_curr = left_head
         right_curr = right_head
         while left_curr and right_curr:
@@ -88,21 +94,24 @@ class LinkedList:
                 yield (None, right_curr)
                 right_curr = right_next
             else:
-                 # Save reference to next- needed when yielding from both since we will manipulate left next to point to right before returning
+                 # Save reference to next- needed when yielding from both since we will manipulate left next to point to right before returning incase of merge operation
                 left_next, right_next = left_curr.next, right_curr.next
                 yield (left_curr, right_curr)
                 left_curr, right_curr = left_next, right_next
         while left_curr:
+            # Yield the remaining in left llist if right llist is empty
             left_next = left_curr.next
             yield (left_curr, None)
             left_curr = left_next
         while right_curr:
+            # Yield the remaining in right llist if left llist is empty
             right_next = right_curr.next
             yield (None, right_curr)
             right_curr = right_next
 
     @staticmethod
     def _sorted_merge(front, back):
+        # Merge two sorted llist
         head = None
         curr = None
         for left_node, right_node in LinkedList.get_nodes_ascending(front, back):
