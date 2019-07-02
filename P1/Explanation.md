@@ -127,3 +127,52 @@ of only once, while checking for match, time complexity is O(n). The space compl
 
 **Space Complexity**: O(n)
 
+## Problem 5: Block Chain
+
+#### __Design__ 
+
+Block-chain is formed by appending a new block to a list, that has as one of its
+members a hash of the previous last block in the list, to build a chain of integrity.
+
+The hash itself is formed by taking into account the previous hash along with current
+block data and timestamp.
+
+The time and space complexity are both proportional to the number of blocks being added.
+
+The complexity of hash function is not considered here, which could depend on length of the data.
+
+#### __append__  
+
+**Time Complexity**: O(n) where n is number of blocks
+
+**Space Complexity**: O(n)
+
+
+## Problem 5: Union and Intersection
+
+#### __Design__ 
+
+Since, we need to allow for duplication of elements within a linked list, the best way to 
+track matching elements would be to sort the two individual linked list, and walk through them
+side by side.
+
+We use merge sort to sort the two linked list and this operation takes O((m+n)log(m+n)) time
+where m, n are number of elements in the two linked lists respectively.
+
+This is the dominant operation, since once we have them sorted, we will just walk through elements from
+both lists in linear time, comparing for match and adding them to the output for both union and intersection if match occurs.
+If mismatch occurs, we only add the elements for the union case.
+
+
+
+#### __union__  
+
+**Time Complexity**: O((m+n)log(m+n)) where m, n are number of elements in the two linked lists respectively
+
+**Space Complexity**: O(m+n)
+
+#### __intersection__  
+
+**Time Complexity**: O((m+n)log(m+n)) where m, n are number of elements in the two linked lists respectively
+
+**Space Complexity**: O(m+n)

@@ -1,4 +1,9 @@
+import unittest
+
 class Node:
+    """
+    Description: Linked List Node
+    """
     def __init__(self, value):
         self.value = value
         self.next = None
@@ -17,13 +22,24 @@ class Node:
 
 
 class LinkedList:
+    """
+    Description: Linked List that can self-sort using merge-sort
+    """
     def __init__(self):
         self.head = None
         self._sorted = False
 
     @classmethod
     def from_head(cls, head):
-        # Alternative constructor to wrap an already build list into Linked List class using the head
+        """
+        Alternative constructor to wrap an already build list into Linked List class using the head
+
+        Args:
+          head: head of a singly linked list of nodes.
+
+        Returns:
+           Newly created LinkedList object
+        """
         new_ll = cls()
         new_ll.head = head
         new_ll._sorted = False
@@ -39,6 +55,16 @@ class LinkedList:
 
 
     def append(self, value):
+        """
+        Add elements to end of linked-list
+
+        Args:
+          value: Value to append to linked list
+
+        Returns:
+           None
+        """
+
         self._sorted = False  # If adding new node, reset the sorted flag
 
         if self.head is None:
@@ -62,6 +88,15 @@ class LinkedList:
 
     @staticmethod
     def _front_back_split(head):
+        """
+        Merge Sort helper that splits a given LinkedList in the middle to return two Linked List
+
+        Args:
+          head: head of a singly linked list of nodes.
+
+        Returns:
+           front, back: heads of the two newly split linked lists
+        """
         slow = head
         fast = head
         # Get slow node to one node before the mid-point, so move fast pointer first
@@ -79,9 +114,17 @@ class LinkedList:
 
     @staticmethod
     def get_nodes_ascending(left_head, right_head):
-        # Generator to yield the lower of the values and none for the other value, when
-        # traverse the two llist side by side. If both values are same, yield both
-        # left and right nodes.
+        """
+        Generator to yield the lower of the values and none for the other value, when
+        traverse the two llist side by side. If both values are same, yield both
+        left and right nodes.
+
+        Args:
+          left_head, right_head: heads of the singly linked list of nodes to traverse.
+
+        Returns:
+           Next value from each of the linked lists (if same, otherwise None for the greater value)
+        """
         left_curr = left_head
         right_curr = right_head
         while left_curr and right_curr:
@@ -111,7 +154,15 @@ class LinkedList:
 
     @staticmethod
     def _sorted_merge(front, back):
-        # Merge two sorted llist
+        """
+        Merge two sorted llist
+
+        Args:
+          front, back: heads of the sorted singly linked list of nodes.
+
+        Returns:
+           head: head of merged linked list
+        """
         head = None
         curr = None
         for left_node, right_node in LinkedList.get_nodes_ascending(front, back):
@@ -131,6 +182,15 @@ class LinkedList:
 
     @staticmethod
     def _merge_sort(head):
+        """
+        Merge sort
+
+        Args:
+          head: heads of the singly linked list of nodes, to sort
+
+        Returns:
+           head: head of the sorted linked list
+        """
         if head is not None and head.next is not None:
             front, back = LinkedList._front_back_split(head)
             front = LinkedList._merge_sort(front)
@@ -139,6 +199,15 @@ class LinkedList:
         return head
 
     def sort(self):
+        """
+        Sort LinkedList inplace.
+
+        Args:
+          None
+
+        Returns:
+           instance of current LinkedList after sorting
+        """
         if not self._sorted and self.head and self.head.next:
             new_head = self._merge_sort(self.head)
             self.head = new_head
@@ -169,36 +238,50 @@ def intersection(llist_1, llist_2):
     return llist_intersection
 
 
-# Test case 1
+class TestUnionIntersection(unittest.TestCase):
+    def setUp(self):
+        print("\n\n****{}****".format(self._testMethodName))
 
-linked_list_1 = LinkedList()
-linked_list_2 = LinkedList()
+    def union_and_intersection(self, element_1, element_2):
+        linked_list_1 = LinkedList()
+        linked_list_2 = LinkedList()
 
-element_1 = [3,2,4,35,6,65,6,4,3,21]
-element_2 = [6,32,4,9,6,1,11,21,1]
+        for i in element_1:
+            linked_list_1.append(i)
 
-for i in element_1:
-    linked_list_1.append(i)
+        for i in element_2:
+            linked_list_2.append(i)
 
-for i in element_2:
-    linked_list_2.append(i)
+        print (union(linked_list_1, linked_list_2))
+        print (intersection(linked_list_1, linked_list_2))
 
-print (union(linked_list_1,linked_list_2))
-print (intersection(linked_list_1,linked_list_2))
+    def test_case1(self):
 
-# Test case 2
+        element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 21]
+        element_2 = [6, 32, 4, 9, 6, 1, 11, 21, 1]
+        self.union_and_intersection(element_1, element_2)
+    """
+    1 -> 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 6 -> 6 -> 9 -> 11 -> 21 -> 32 -> 35 -> 65 ->
+    4 -> 6 -> 6 -> 21 ->
+    """
 
-linked_list_3 = LinkedList()
-linked_list_4 = LinkedList()
+    def test_case2(self):
+        element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 23]
+        element_2 = [1, 7, 8, 9, 11, 21, 1]
+        self.union_and_intersection(element_1, element_2)
+    """
+1 -> 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 6 -> 6 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 -> 35 -> 65 -> 
+    
+    """
 
-element_1 = [3,2,4,35,6,65,6,4,3,23]
-element_2 = [1,7,8,9,11,21,1]
+    def test_case3(self):
+        element_1 = []
+        element_2 = []
+        self.union_and_intersection(element_1, element_2)
+    """
 
-for i in element_1:
-    linked_list_3.append(i)
 
-for i in element_2:
-    linked_list_4.append(i)
+    """
 
-print (union(linked_list_3,linked_list_4))
-print (intersection(linked_list_3,linked_list_4))
+if __name__ == '__main__':
+    unittest.main()
