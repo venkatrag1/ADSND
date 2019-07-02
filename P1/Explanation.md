@@ -67,4 +67,63 @@ directories, soft-links) under current directory.
 
 **Time Complexity**: O(n) where n is number of files and subdirectories under a given path
 
-**Space Complexity**: O(n) to maintain set of visited directories
+**Space Complexity**: O(n) to maintain set of visited directories and for recursion depth
+
+## Problem 3: Huffman Coding
+
+#### __Design__ 
+
+The primary idea behind huffman coding is to assign codes with fewer digits to more
+frequently occuring characters in a string. So, we begin by build a frequency map
+of characters and their counts in the original string. 
+
+We then make a HuffmanNode with each of these characters and their frequencies,  and push these into a min heap.
+
+At every step, we pull two nodes with the least frequencies and merge them under a pseudo node, 
+referred to as internal node which has no data but a frequency that's the combined frequencies of
+the two nodes being merged. We make a HuffmanTree with this pseudo-node at the root, and the
+two original nodes as its children. We push this tree into the heap, and continue pulling
+mins from the heap until only one element is left which should be a tree (if its a HuffmanNode, 
+-ie there is only one character in our string, we will create a dummy parent with this HuffmanNode as the only child).
+
+Now we walk through every element in this HuffmanTree, adding a 0 every time we visit left and 1 every time we visit right, 
+and we assign the accumulated code to the leaf node we encounter in that path.
+
+Finally, we encode the original string using the code stored to the HuffmanNodes in the leaf of our tree.
+
+To decode this string, we again walk through the tree, taking a left for 0 and right for 1, until we encounter
+a leaf node. At this point, we replace the code so far with the leaf node character, reset back to root of the tree
+and continue walking till we have decoded all the characters.
+
+The time complexity is proportional to size of string that is being encoded/decoded, since we 
+walk through every character.
+
+The space complexity will be proportional to n^2 since there are n leaf nodes in our tree, which means
+the geometric series with a = n, r = 1/2 and log(n) terms will sum to n^2.
+
+#### __huffman_encoding__  
+
+**Time Complexity**: O(n) where n is number of characters in the original string
+
+**Space Complexity**: O(n^2)
+
+#### __huffman_decoding__  
+
+**Time Complexity**: O(k) where n is number of digits in encoded binary data
+
+**Space Complexity**: O(n^2)
+
+## Problem 4: Active Directory
+
+#### __Design__ 
+
+For every group, we check each user for match with the requested user, and we 
+recursively do this for every sub-group. Since we could visit every user/group a maximum
+of only once, while checking for match, time complexity is O(n). The space complexity is O(n)
+
+#### __is_user_in_group__  
+
+**Time Complexity**: O(n) where n is number of users + sub-groups in a group
+
+**Space Complexity**: O(n)
+
