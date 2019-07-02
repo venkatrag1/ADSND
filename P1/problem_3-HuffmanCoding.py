@@ -137,13 +137,13 @@ def build_freq_dict(data):
     return freq_dict
 
 def huffman_encoding(data):
-    if len(data) == 0:
+    if len(data) == 0: # To satisfy int(encoded_data) return 0 with None for tree incase of empty string
         return '0', None
     freq_dict = build_freq_dict(data)
     h = []
     for c, freq in freq_dict.items():
-        heapq.heappush(h, HuffmanTree(freq, HuffmanData(c)))
-    while len(h) > 1:
+        heapq.heappush(h, HuffmanTree(freq, HuffmanData(c))) # Push Huffman Trees made of individual character nodes into min heap
+    while len(h) > 1: # Since you will always have one tree left at the end
         tree1 = heapq.heappop(h)
         tree2 = heapq.heappop(h)
         new_freq = tree1.root.freq + tree2.root.freq
@@ -151,7 +151,12 @@ def huffman_encoding(data):
         new_tree.root.left = tree1.root
         new_tree.root.right = tree2.root
         heapq.heappush(h, new_tree)
-    final_tree = heapq.heappop(h)
+    final_tree = heapq.heappop(h) # Pop the one tree that's left
+    if not final_tree.root.is_internal(): # In case of strings with just one character, root will be a HuffmanData node, so convert it to left child of a dummy tree.
+        new_tree = HuffmanTree(final_tree.root.freq)
+        new_tree.root.left = final_tree.root
+        new_tree.root.right = None
+        final_tree = new_tree
     final_tree.assign_codes()
     # Build code dict in assign codes
     code_dict = final_tree.get_code_dict()
@@ -213,6 +218,13 @@ class TestHuffmanCoding(unittest.TestCase):
 
     def test_case3_single_char(self):
         self.encode_and_decode('a')
+        # The size of the data is: 38
+        # The content of the data is: a
+        # The size of the encoded data is: 24
+        # The content of the encoded data is: 0
+        # The size of the decoded data is: 38
+        # The content of the encoded data is: a
+
 
 if __name__ == "__main__":
     unittest.main()
