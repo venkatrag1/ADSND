@@ -225,6 +225,14 @@ class TestHuffmanCoding(unittest.TestCase):
         # The size of the decoded data is: 38
         # The content of the encoded data is: a
 
+    def test_case4_repeated_single_char(self):
+        self.encode_and_decode('aaaa')
+        # The size of the data is: 41
+        # The content of the data is: aaaa
+        # The size of the encoded data is: 24
+        # The content of the encoded data is: 0000
+        # The size of the decoded data is: 41
+        # The content of the encoded data is: aaaa
 
 if __name__ == "__main__":
     unittest.main()

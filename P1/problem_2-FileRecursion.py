@@ -37,6 +37,9 @@ def _find_files(suffix, path, path_list, visited):
     Returns:
        None
     """
+    if not os.path.isdir(path):
+        print("The path {} does not exist".format(path))
+        return
     candidates = os.listdir(path)
     for candidate in candidates:
         # Form full-path by merging candidate name with base-path, converting any softlinks and relpath to absolute path
@@ -82,6 +85,11 @@ class TestFileRecursion(unittest.TestCase):
     def test_case3_no_result(self):
         pprint(find_files('.c', os.path.join(self.BASEPATH, 'testdir-3')))
         # Returns []
+
+    def test_case4_invalid_directory(self):
+        pprint(find_files('.c', os.path.join(self.BASEPATH, 'invalid-dir')))
+        # The path /vagrant/GitHub/ADSND/P1/data/problem_2-FileRecursion/invalid-dir does not exist
+        # []
 
 if __name__ == '__main__':
     unittest.main()
