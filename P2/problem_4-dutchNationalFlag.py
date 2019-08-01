@@ -40,13 +40,13 @@ def sort_012(input_list):
 
     if left < right:
         current = left + 1  # Since everything upto left is 0, begin iteration at left + 1
-        while left <= right and current <= right:
+        while current <= right:
             if input_list[current] == 1:
                 current += 1  # Advance current if we see 1
             elif input_list[current] == 0:   # Push 0 to last hole on the left and copy the value in hole to current and recheck
                 input_list[current], input_list[left] = input_list[left], input_list[current]
                 left = find_next_left(input_list, left, right)
-                if left > current:
+                if left > current:  # Make sure current stays ahead of left, to avoid unnecessary checks and to be able to exit on current and right comparison alone
                     current = left + 1
             elif input_list[current] == 2:  # Push 2 to last hole on the right and copy the value in hole to current and recheck
                 input_list[current], input_list[right] = input_list[right], input_list[current]
