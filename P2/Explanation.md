@@ -22,73 +22,65 @@ to the right.
 **Space Complexity**: O(1)
 
 
-## Problem 2: File Recursion
+## Problem 2: Search in Rotated Sorted Array
 
 #### __Design__ 
 
-In the straighforward case, we handle files and directories encountered in 
-current directory differently - checking files for suffix match and adding to result if matched,
-and recursing on the directories to continue the same until no more sub-directories are 
-encountered.
+Since we're expected to find the start of rotation in O(log(n)) time, 
+we know we need to use binary search.
 
-However, softlinks might cause us to have infinite loops, breaking away from a true
-tree structure if a sub-directory contains a softlink back to its parent.
+We will modify the binary search exit criteria to handle duplicates (optional), but
+the major change occurs in the criterion for deciding whether to search left or right.
 
-To handle this case, we convert all directories, including softlinks to their 
-realpath, and store them in a `visited` set recursing only if not already added into the set.
+Unlike binary search on a regular sorted, array we can't decide this based on comparing
+middle element and target alone. 
 
-Since we visit every node exactly once, the time complexity is linear to number of nodes (files, 
-directories, soft-links) under current directory.
+There are two approaches to handling this- 
+- Approach 1: We  can do two passes over the rotated array, finding the index of 
+rotation first  using a regular binary search and then launching a second regular binary search on either the left or 
+right side of rotation to find the target.
+- Approach 2: We can instead do this in one pass, by first determining whether the 
+rotation at each step is on the left or right side of the middle, and then seeing if
+target is in range on the sorted side and searching there. If the target is not in range
+of the sorted side, then we skip the sorted side and look on the other side which contains 
+the rotation. This way, we still get O(log(n)) since we only keep one half of the input after
+every step.
 
-#### __find_files__  
+We will implement Approach 2 here. In the case of duplicates, we may be unable to determine
+direction of rotation, so we might still have to search on both sides, but that case is not applicable
+given our problem input bounds.
 
-**Time Complexity**: O(n) where n is number of files and subdirectories under a given path
 
-**Space Complexity**: O(n) to maintain set of visited directories and for recursion depth
+#### __search__  
 
-## Problem 3: Huffman Coding
+**Time Complexity**: O(log(n)) where n is number of elements in the array
+
+**Space Complexity**: O(1)
+
+## Problem 3: Re-arrange Arrray
 
 #### __Design__ 
 
-The primary idea behind huffman coding is to assign codes with fewer digits to more
-frequently occuring characters in a string. So, we begin by build a frequency map
-of characters and their counts in the original string. 
+Since the expected time complexity is O(n log(n)), we already have a hint that 
+this involves some sorting routine.
 
-We then make a HuffmanNode with each of these characters and their frequencies,  and push these into a min heap.
+Beyond that, since the two numbers can't differ by more than one digit, we need to 
+distribute the digits almost equally between the two numbers.
 
-At every step, we pull two nodes with the least frequencies and merge them under a pseudo node, 
-referred to as internal node which has no data but a frequency that's the combined frequencies of
-the two nodes being merged. We make a HuffmanTree with this pseudo-node at the root, and the
-two original nodes as its children. We push this tree into the heap, and continue pulling
-mins from the heap until only one element is left which should be a tree (if its a HuffmanNode, 
--ie there is only one character in our string, we will create a dummy parent with this HuffmanNode as the only child).
+To make each number as big as it can be, we need to have larger digits in higher order positions.
 
-Now we walk through every element in this HuffmanTree, adding a 0 every time we visit left and 1 every time we visit right, 
-and we assign the accumulated code to the leaf node we encounter in that path.
+To make the sum as big as possible, the digits being added at each position need to be 
+as big as possible.
 
-Finally, we encode the original string using the code stored to the HuffmanNodes in the leaf of our tree.
+Therefore we will begin by sorting the list in descending order and then push digits
+alternately into the two numbers.
 
-To decode this string, we again walk through the tree, taking a left for 0 and right for 1, until we encounter
-a leaf node. At this point, we replace the code so far with the leaf node character, reset back to root of the tree
-and continue walking till we have decoded all the characters.
+#### __rearrange__  
 
-The time complexity is proportional to size of string that is being encoded/decoded, since we 
-walk through every character.
+**Time Complexity**: O(n log (n)) where n is length of the list
 
-The space complexity will be proportional to n^2 since there are n leaf nodes in our tree, which means
-the geometric series with a = n, r = 1/2 and log(n) terms will sum to n^2.
+**Space Complexity**: O(n) for the temp array in merge sort
 
-#### __huffman_encoding__  
-
-**Time Complexity**: O(n) where n is number of characters in the original string
-
-**Space Complexity**: O(n^2)
-
-#### __huffman_decoding__  
-
-**Time Complexity**: O(k) where n is number of digits in encoded binary data
-
-**Space Complexity**: O(n^2)
 
 ## Problem 4: Active Directory
 

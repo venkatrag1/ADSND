@@ -14,13 +14,13 @@ def rotated_array_search(input_list, number):
 
 def _rotated_array_search(input_list, number, left, right):
     """
-    Find the index by searching in a rotated sorted array
+    Find the index by searching in a rotated sorted array - modified binary search
 
     Args:
        input_list(array): Input array to search
        number(int): Target to search
-       left(int):
-       right(int):
+       left(int): left index of input_list to search
+       right(int): right index of input_list to search
     Returns:
        int: Index or -1
     """
@@ -81,6 +81,9 @@ class TestRotatedArraySearch(unittest.TestCase):
 
     def test_case5(self):
         test_function([[6, 7, 8, 1, 2, 3, 4], 10])
+
+    def test_case6(self):
+        test_function([[], 10])
 
 if __name__ == '__main__':
     unittest.main()
