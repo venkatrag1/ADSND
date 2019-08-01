@@ -82,19 +82,36 @@ alternately into the two numbers.
 **Space Complexity**: O(n) for the temp array in merge sort
 
 
-## Problem 4: Active Directory
+## Problem 4: Dutch National Flag
 
 #### __Design__ 
 
-For every group, we check each user for match with the requested user, and we 
-recursively do this for every sub-group. Since we could visit every user/group a maximum
-of only once, while checking for match, time complexity is O(n). The space complexity is O(n)
+Since we are required to sort it in one-pass, we need to put every element we visit
+in the current position immediately. 
 
-#### __is_user_in_group__  
+We can use an approach similar to partition step of quick sort where we put all 
+elements less than pivot on the left and all elements greater than pivot on the right
+and elements equal to pivot in the middle.
 
-**Time Complexity**: O(n) where n is number of users + sub-groups in a group
+Since we could have exactly one value that's less than pivot and one value that's 
+greater than pivot if we choose the pivot as 1, we would have fully sorted our array
+after one pass of comparisons.
 
-**Space Complexity**: O(n)
+We need two pointers to track the less than pivot bucket end and greater than pivot bucket start.
+
+We step through every element using the current pointer, and whenever we find an element that
+should on a bucket on the either side rather than the middle, we swap it out with the element at the 
+growing end of the bucket and then grow the corresponding bucket by 1, and reassess the new value at current.
+
+
+
+
+#### __sort_012__  
+
+**Time Complexity**: O(n) where n is number of elements in list (One pass)
+
+**Space Complexity**: O(1) since its inplace
+
 
 ## Problem 5: Block Chain
 
