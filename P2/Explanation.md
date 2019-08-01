@@ -113,52 +113,71 @@ growing end of the bucket and then grow the corresponding bucket by 1, and reass
 **Space Complexity**: O(1) since its inplace
 
 
-## Problem 5: Block Chain
+## Problem 5: Trie Autocomplete
 
 #### __Design__ 
 
-Block-chain is formed by appending a new block to a list, that has as one of its
-members a hash of the previous last block in the list, to build a chain of integrity.
+For the implementation of a TrieNode, we use a dictionary to store TrieNodes of 
+children, with the child character as the key. This way, we can string together 
+words with common prefix, by branching off at the first character that is different.
 
-The hash itself is formed by taking into account the previous hash along with current
-block data and timestamp.
+We also use a boolean flag to indicate whether a word that was inserted ends at 
+the given TrieNode.
 
-The time and space complexity are both proportional to the number of blocks being added.
+The Trie object then simply stores the root TrieNode, and traverses character by 
+character down from the root until it cannot find a character in the hierarchy 
+which means that this word wasn't inserted into the Trie.
 
-The complexity of hash function is not considered here, which could depend on length of the data.
+For autocomplete, we just need to recurse down all possible paths from the last
+node that matches the prefix, until we have found all word ends, and return the list. 
 
-#### __append__  
 
-**Time Complexity**: O(n) where n is number of blocks
+
+#### __insert(Trie level)__  
+
+**Time Complexity**: O(n) where n is number of characters in the word being inserted
 
 **Space Complexity**: O(n)
 
 
-## Problem 5: Union and Intersection
+#### __find__  
+
+**Time Complexity**: O(n) 
+
+**Space Complexity**: O(n)
+
+
+
+#### __suffixes__  
+
+**Time Complexity**: O(k) where k is the length of the longest suffix, since that is the deepest that's the max number of nodes we have to visit.
+
+**Space Complexity**: O(k) since k will be the deepest recursion path.
+
+
+## Problem 6: Min Max Unsorted Array
 
 #### __Design__ 
 
-Since, we need to allow for duplication of elements within a linked list, the best way to 
-track matching elements would be to sort the two individual linked list, and walk through them
-side by side.
+We can solve this simply in one linear pass, with two variables one for min and one for max.
+We can then compare every integer with min and max, and update the min and max accordingly.
 
-We use merge sort to sort the two linked list and this operation takes O((m+n)log(m+n)) time
-where m, n are number of elements in the two linked lists respectively.
+However, over here we are doing two comparisons for every integer.
 
-This is the dominant operation, since once we have them sorted, we will just walk through elements from
-both lists in linear time, comparing for match and adding them to the output for both union and intersection if match occurs.
-If mismatch occurs, we only add the elements for the union case.
+When we have only two elements, we only need to compare them against each other once,
+to get both the min and max.
 
+Building on this idea, we will use a divide and conquer approach which will break
+our comparisons into comparison against two or less elements, by recursively splitting
+into left and right half until we are left with only one or two elements.
 
+Of course, when we do get the min and max back from the two halves, we will have two comparisons
+for min and max, but since this will happen fewer than n times (it will happen roughly log(n) times)
+we are still better off than the 2n complexity of simple linear sweep. 
 
-#### __union__  
+#### __get_min_max__  
 
-**Time Complexity**: O((m+n)log(m+n)) where m, n are number of elements in the two linked lists respectively
+**Time Complexity**: O(n) where n is the number of ints in the list
 
-**Space Complexity**: O(m+n)
+**Space Complexity**: O(1)
 
-#### __intersection__  
-
-**Time Complexity**: O((m+n)log(m+n)) where m, n are number of elements in the two linked lists respectively
-
-**Space Complexity**: O(m+n)
