@@ -181,4 +181,24 @@ we are still better off than the 2n complexity of simple linear sweep.
 **Space Complexity**: O(1)
 
 
+## Problem 7: HTTP Router Trie
 
+#### __Design__ 
+
+At each node of the trie, instead of storing a character we will store a part of route
+that is enclosed in '/'. To handle trailing slashes, we will remove it when we split the path.
+We replace the empty string at root with the word 'root' and attach root handler to it.
+
+For insert, we will attach the handler for the route end.
+
+#### __add_handler__  
+
+**Time Complexity**: O(n) where n is number of parts in the path being inserted
+
+**Space Complexity**: O(n)
+
+#### __lookup__  
+
+**Time Complexity**: O(n) 
+
+**Space Complexity**: O(n)
