@@ -87,3 +87,36 @@ class TestRotatedArraySearch(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+"""
+Expected output-
+
+****test_case1****
+Pass
+.
+
+****test_case2****
+Pass
+.
+
+****test_case3****
+Pass
+.
+
+****test_case4****
+Pass
+.
+
+****test_case5****
+Pass
+.
+
+****test_case6****
+Pass
+.
+----------------------------------------------------------------------
+Ran 6 tests in 0.005s
+
+OK
+
+"""

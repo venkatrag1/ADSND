@@ -62,5 +62,48 @@ class TestSqrt(unittest.TestCase):
     def test_case8(self):
         self.print_pass_fail(1, 3)
 
+
 if __name__ == '__main__':
     unittest.main()
+
+"""
+Expected Output- 
+
+****test_case1****
+Pass
+.
+
+****test_case2_zero****
+Pass
+.
+
+****test_case3****
+Pass
+.
+
+****test_case4_one****
+Pass
+.
+
+****test_case5_floor****
+Pass
+.
+
+****test_case6_far_away_floor****
+Pass
+.
+
+****test_case7****
+Since, the number is a negative integer, the square root value returned is imaginary and should be considered multiplied by i, that is sqrt(-1)
+Pass
+.
+
+****test_case8****
+Pass
+.
+----------------------------------------------------------------------
+Ran 8 tests in 0.005s
+
+OK
+
+"""

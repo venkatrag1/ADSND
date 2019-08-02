@@ -110,3 +110,33 @@ if __name__ == '__main__':
     unittest.main()
 
 
+"""
+Expected Solution- 
+
+
+****test_case1****
+Pass
+.
+
+****test_case2****
+Pass
+.
+
+****test_case3****
+Pass
+.
+
+****test_case4****
+Pass
+.
+
+****test_case5****
+Pass
+.
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK
+
+"""
+
