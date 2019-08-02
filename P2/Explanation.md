@@ -150,9 +150,8 @@ node that matches the prefix, until we have found all word ends, and return the 
 
 #### __suffixes__  
 
-**Time Complexity**: O(k) where k is the length of the longest suffix, since that is the deepest that's the max number of nodes we have to visit.
-
-**Space Complexity**: O(k) since k will be the deepest recursion path.
+**Time Complexity**: O(m) where m is sum of characters in all the suffixes, since each character will be visited once as part of travesal.
+**Space Complexity**: O(k) where k is the length of the longest suffix, since that is the deepest our recursion will grow to.
 
 
 ## Problem 6: Min Max Unsorted Array
@@ -172,7 +171,7 @@ our comparisons into comparison against two or less elements, by recursively spl
 into left and right half until we are left with only one or two elements.
 
 Of course, when we do get the min and max back from the two halves, we will have two comparisons
-for min and max, but since this will happen fewer than n times (it will happen roughly log(n) times)
+for min and max, but since this will happen fewer than n times, so
 we are still better off than the 2n complexity of simple linear sweep. 
 
 #### __get_min_max__  
@@ -180,4 +179,6 @@ we are still better off than the 2n complexity of simple linear sweep.
 **Time Complexity**: O(n) where n is the number of ints in the list
 
 **Space Complexity**: O(1)
+
+
 
