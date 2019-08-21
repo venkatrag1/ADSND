@@ -6,13 +6,6 @@ def shortest_path(M, start, goal):
     route_planner = RoutePlanner(M, start, goal)
     return route_planner.path
 
-def distance(M, node1, node2):
-    return math.sqrt(sum([(a1 - a2) ** 2 for a1, a2 in zip(M.intersections[node1], M.intersections[node2])]))
-
-def heuristic_cost_estimate(M, node, goal):
-    return distance(M, node, goal)
-
-
 class RoutePlanner(object):
     def __init__(self, M, start, goal):
         if not isinstance(M, Map):
@@ -22,14 +15,11 @@ class RoutePlanner(object):
         self.M = M
         self.start = start
         self.goal = goal
+        self.g_scores = {k : float('inf') for k in M.intersections}
+        self.g_scores[start] = 0
         self.explored = set()
         self.frontier = set([start])
         self.visited_from = dict()
-    #self.frontier = list()
-    #heapq.heappush(frontier, start)
-        self.g_scores = {k : float('inf') for k in M.intersections}
-        self.g_scores[start] = 0
-        self.f_scores = {k: float('inf') for k in M.intersections}
         self.path = self.shortest_path()
 
 
@@ -71,7 +61,6 @@ class RoutePlanner(object):
     def record_best_path(self, curr_node, neighbor):
         self.visited_from[neighbor] = curr_node
         self.g_scores[neighbor] = self.get_tentative_gScore(curr_node, neighbor)
-        self.f_scores[curr_node] = self.get_fScore(curr_node)
 
     def shortest_path(self):
         while len(self.frontier) > 0:
